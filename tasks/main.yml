@@ -10,6 +10,10 @@
     msg: "Only TCP or UDP protocol is supported to forward logs to Graylog"
   when: "graylog_protocol not in ['tcp', 'udp']"
 
+- name: "Gather the package facts"
+  ansible.builtin.package_facts:
+    manager: "apt"
+
 - name: "Print the rsyslog package facts"
   ansible.builtin.debug:
     var: "ansible_facts.packages['rsyslog']"
