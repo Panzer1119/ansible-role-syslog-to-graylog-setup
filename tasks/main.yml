@@ -42,4 +42,4 @@
 
 - name: "If syslog-ng is installed, configure it"
   include_tasks: "set-up-syslog-ng.yml"
-  when: "missing_rsystlog and not missing_syslog_ng"
+  when: "missing_rsyslog and not missing_syslog_ng"
