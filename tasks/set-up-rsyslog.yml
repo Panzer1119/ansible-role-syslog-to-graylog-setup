@@ -1,0 +1,14 @@
+---
+- name: "Install rsyslog"
+  ansible.builtin.package:
+    name: "rsyslog"
+    state: "present"
+  become: "yes"
+  when: "install_syslog_daemon_if_missing"
+
+- name: "Configure rsyslog"
+  ansible.builtin.template:
+      src: "rsyslog.conf.j2"
+      dest: "/etc/rsyslog.d/10-graylog.conf"
+  become: "yes"
+  notify: "Restart rsyslog service"

@@ -1,0 +1,19 @@
+---
+- name: "Install syslog-ng"
+  ansible.builtin.package:
+    name: "syslog-ng"
+    state: "present"
+  become: "yes"
+  when: "install_syslog_daemon_if_missing"
+
+- name: "Fail if graylog_protocol is not tcp"
+  ansible.builtin.fail:
+    msg: "Only TCP protocol is supported to forward logs to Graylog with syslog-ng"
+  when: "graylog_protocol != 'tcp'"
+
+- name: "Configure syslog-ng"
+  ansible.builtin.template:
+    src: "syslog-ng-graylog.conf.j2"
+    dest: "/etc/syslog-ng/conf.d/10-graylog.conf"
+  become: "yes"
+  notify: "Restart syslog-ng service"

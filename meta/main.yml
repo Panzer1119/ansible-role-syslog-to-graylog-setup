@@ -1,0 +1,17 @@
+galaxy_info:
+  role_name: "syslog_to_graylog_setup"
+  author: "Panzer1119"
+  description: "Sets up rsyslog or syslog-ng to send logs to Graylog"
+  license: "Apache-2.0"
+  min_ansible_version: "2.9"
+  platforms:
+    - name: "Debian"
+      versions:
+        - "all"
+  galaxy_tags:
+    - "system"
+    - "syslog"
+    - "graylog"
+    - "logging"
+    - "rsyslog"
+    - "syslog-ng"

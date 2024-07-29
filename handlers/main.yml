@@ -1,0 +1,17 @@
+---
+# Handlers for Syslog to Graylog setup
+- name: "Restart rsyslog service"
+  ansible.builtin.systemd:
+    daemon_reload: "yes"
+    name: "rsyslog"
+    enabled: "yes"
+    state: "restarted"
+  become: "yes"
+
+- name: "Restart syslog-ng service"
+  ansible.builtin.systemd:
+    daemon_reload: "yes"
+    name: "syslog-ng"
+    enabled: "yes"
+    state: "restarted"
+  become: "yes"

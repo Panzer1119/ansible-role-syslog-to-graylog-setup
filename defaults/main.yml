@@ -1,0 +1,7 @@
+---
+preferred_syslog_daemon: "rsyslog" # rsyslog or syslog-ng
+install_syslog_daemon_if_missing: "true"
+
+graylog_protocol: "udp" # tcp or udp
+graylog_host: "graylog"
+graylog_port: "1514"

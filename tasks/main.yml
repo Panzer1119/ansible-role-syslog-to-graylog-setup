@@ -1,0 +1,38 @@
+---
+# Main tasks file
+- name: "Fail if preferred_syslog_daemon is not rsyslog or syslog-ng"
+  ansible.builtin.fail:
+    msg: "Only rsyslog or syslog-ng is supported as a syslog daemon"
+  when: "preferred_syslog_daemon not in ['rsyslog', 'syslog-ng']"
+
+- name: "Fail if graylog_protocol is not tcp or udp"
+  ansible.builtin.fail:
+    msg: "Only TCP or UDP protocol is supported to forward logs to Graylog"
+  when: "graylog_protocol not in ['tcp', 'udp']"
+
+- name: "Check if rsyslog is installed"
+  ansible.builtin.command:
+    cmd: "dpkg -l rsyslog"
+    register: "rsyslog_installed"
+
+- name: "Check if syslog-ng is installed"
+  ansible.builtin.command:
+    cmd: "dpkg -l syslog-ng"
+    register: "syslog_ng_installed"
+
+- name: "Fail if both syslog daemons are installed"
+  ansible.builtin.fail:
+    msg: "Both rsyslog and syslog-ng are installed. Please choose only one syslog daemon"
+  when: "rsyslog_installed.rc == 0 and syslog_ng_installed.rc == 0"
+
+- name: "If none of the syslog daemons are installed, install the preferred one"
+  include_tasks: "set-up-{{ preferred_syslog_daemon }}.yml"
+  when: "rsyslog_installed.rc != 0 and syslog_ng_installed.rc != 0"
+
+- name: "If rsyslog is installed, configure it"
+  include_tasks: "set-up-rsyslog.yml"
+  when: "rsyslog_installed.rc == 0"
+
+- name: "If syslog-ng is installed, configure it"
+  include_tasks: "set-up-syslog-ng.yml"
+  when: "syslog_ng_installed.rc == 0"
