@@ -13,12 +13,12 @@
 - name: "Check if rsyslog is installed"
   ansible.builtin.command:
     cmd: "dpkg -l rsyslog"
-    register: "rsyslog_installed"
+  register: "rsyslog_installed"
 
 - name: "Check if syslog-ng is installed"
   ansible.builtin.command:
     cmd: "dpkg -l syslog-ng"
-    register: "syslog_ng_installed"
+  register: "syslog_ng_installed"
 
 - name: "Fail if both syslog daemons are installed"
   ansible.builtin.fail:
